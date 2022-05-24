@@ -10,9 +10,15 @@ import sys
 sys.path.append(os.path.join(os.getcwd(), '../build/'))
 import pydeft as deft
 
-# --------------------------------------------------------
-# This script bla bla
-# --------------------------------------------------------
+plt.rc('font', family='serif')
+plt.rc('xtick', labelsize='x-small')
+plt.rc('ytick', labelsize='x-small')
+
+# ----------------------------------------------------------
+# This script performs a projection onto a local basis
+# to compute the moments or coefficients of that basis, 
+# and reconstructs the function locally with these moments.
+# ----------------------------------------------------------
 
 # ------------------------------------ Math Helper Functions -------------------------------------
 
@@ -200,28 +206,28 @@ print('Generating plot ...')
 fig, ax = plt.subplots(5, 1, sharex=True)
 
 r_100 = [r[i,0,0] for i in range(r.shape[0])]
-ax[0].plot(r_100, [data[i,point[1],point[2]] for i in range(data.shape()[0])], '--b')
-ax[0].plot(r_100, [arr[i,point[1],point[2]] for i in range(data.shape()[0])], 'rx')
+ax[0].plot(r_100, [data[i,point[1],point[2]] for i in range(data.shape()[0])], color='0.5', ls = 'solid', linewidth = 2)
+ax[0].plot(r_100, [arr[i,point[1],point[2]] for i in range(data.shape()[0])], 'k.', markersize=6)
 ax[0].set_ylabel('[100]')
 
 r_010 = [r[0,i,0] for i in range(r.shape[0])]
-ax[1].plot(r_010, [data[point[0],i,point[2]] for i in range(data.shape()[1])], '--b')
-ax[1].plot(r_010, [arr[point[0],i,point[2]] for i in range(data.shape()[1])], 'rx')
+ax[1].plot(r_010, [data[point[0],i,point[2]] for i in range(data.shape()[1])], color='0.5', ls = 'solid', linewidth = 2)
+ax[1].plot(r_010, [arr[point[0],i,point[2]] for i in range(data.shape()[1])], 'k.', markersize=6)
 ax[1].set_ylabel('[010]')
 
 r_001 = [r[0,0,i] for i in range(r.shape[0])]
-ax[2].plot(r_001, [data[point[0],point[1],i] for i in range(data.shape()[2])], '--b')
-ax[2].plot(r_001, [arr[point[0],point[1],i] for i in range(data.shape()[2])], 'rx')
+ax[2].plot(r_001, [data[point[0],point[1],i] for i in range(data.shape()[2])], color='0.5', ls = 'solid', linewidth = 2)
+ax[2].plot(r_001, [arr[point[0],point[1],i] for i in range(data.shape()[2])], 'k.', markersize=6)
 ax[2].set_ylabel('[001]')
 
 r_110 = [r[i,i,0] for i in range(r.shape[0])]
-ax[3].plot(r_110, [data[i,i,point[2]] for i in range(data.shape()[1])], '--b')
-ax[3].plot(r_110, [arr[i,i,point[2]] for i in range(data.shape()[1])], 'rx')
+ax[3].plot(r_110, [data[i,i,point[2]] for i in range(data.shape()[1])], color='0.5', ls = 'solid', linewidth = 2)
+ax[3].plot(r_110, [arr[i,i,point[2]] for i in range(data.shape()[1])], 'k.', markersize=6)
 ax[3].set_ylabel('[110]')
 
 r_111 = [r[i,i,i] for i in range(r.shape[0])]
-ax[4].plot(r_111, [data[i,i,i] for i in range(data.shape()[2])], '--b')
-ax[4].plot(r_111, [arr[i,i,i] for i in range(data.shape()[2])], 'rx')
+ax[4].plot(r_111, [data[i,i,i] for i in range(data.shape()[2])], color='0.5', ls = 'solid', linewidth = 2)
+ax[4].plot(r_111, [arr[i,i,i] for i in range(data.shape()[2])], 'k.', markersize=6)
 ax[4].set_ylabel('[111]')
 
 for i in range(5):
