@@ -15,10 +15,11 @@ def f_tilde(kx,ky,kz):
 box_vectors = 10*np.eye(3)
 box = deft.Box(box_vectors)
 
-print('{:^10} {:^16} {:^16} {:^16} {:^16} {:^16} {:^16}'.format('N', 'Naive', 'Spline-4', 'Spline-8', 'Spline-12', 'Spline-16', 'Spline-20'))
+print('{:^10} {:^18} {:^18} {:^18} {:^18}'.format('N', 'Naive', 'Spline-4', 'Spline-12', 'Spline-20'))
 
-for N in np.linspace(10, 100, 10)**3:
-  Ni = round(N**(1/3))
+Nis = [2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+
+for Ni in Nis:
   shape = (Ni, Ni, Ni)
   x = np.linspace(0, 10, Ni)
   x,y,z = np.meshgrid(x,x,x, indexing = 'ij')
@@ -33,32 +34,26 @@ for N in np.linspace(10, 100, 10)**3:
   grd = deft.array_from_lattice_sum(shape, box, points_array, f_tilde)
   end = timer()
   naive_time = end - start
-  
+  np.save('lattice_sum_benchmark/naive-{}'.format(Ni), grd)
+
   start = timer()
   grd = deft.array_from_lattice_sum(shape, box, points_array, f_tilde, 4)
   end = timer()
-  spline_time_4 = end - start
-  
-  start = timer()
-  grd = deft.array_from_lattice_sum(shape, box, points_array, f_tilde, 8)
-  end = timer()
-  spline_time_8 = end - start
-  
+  spline_time_4 = end - start 
+  np.save('lattice_sum_benchmark/pme4-{}'.format(Ni), grd)
+
   start = timer()
   grd = deft.array_from_lattice_sum(shape, box, points_array, f_tilde, 12)
   end = timer()
   spline_time_12 = end - start
-  
-  start = timer()
-  grd = deft.array_from_lattice_sum(shape, box, points_array, f_tilde, 16)
-  end = timer()
-  spline_time_16 = end - start
+  np.save('lattice_sum_benchmark/pme12-{}'.format(Ni), grd)
   
   start = timer()
   grd = deft.array_from_lattice_sum(shape, box, points_array, f_tilde, 20)
   end = timer()
   spline_time_20 = end - start
+  np.save('lattice_sum_benchmark/pme20-{}'.format(Ni), grd)
   
-  print('{:^10} {:^16.4f} {:^16.4f} {:^16.4f} {:^16.4f} {:^16.4f} {:^16.4f}'\
-       .format(Ni**3, naive_time, spline_time_4, spline_time_8, spline_time_12, spline_time_16, spline_time_20))
+  print('{:^10} {:^18.6f} {:^18.6f} {:^18.6f} {:^18.6f}'\
+       .format(Ni**3, naive_time, spline_time_4, spline_time_12, spline_time_20))
 
