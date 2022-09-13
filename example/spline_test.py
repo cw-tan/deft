@@ -13,8 +13,7 @@ def f_tilde(kx,ky,kz):
 
 print('{:^10} {:^18} {:^18} {:^18} {:^18}'.format('N', 'Naive', 'Spline-4', 'Spline-12', 'Spline-20'))
 
-Nis = [2, 4, 6, 8, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-#Nis = [100]
+Nis = [2, 5, 10, 22, 46]
 
 for Ni in Nis:
 
@@ -54,7 +53,8 @@ for Ni in Nis:
   spline_time_20 = end - start
   np.save('lattice_sum_benchmark/pme20-{}'.format(Ni), grd)
 
-  spline_time_12, spline_time_20 = 0,0
+
   print('{:^10} {:^18.6f} {:^18.6f} {:^18.6f} {:^18.6f}'\
        .format(Ni**3, naive_time, spline_time_4, spline_time_12, spline_time_20))
+
 
